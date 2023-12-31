@@ -8,40 +8,30 @@
 
 'use strict';
 
+const bookController = require('../controllers/bookController');
+
 module.exports = function (app) {
 
   app.route('/api/books')
-    .get(function (req, res){
       //response will be array of book objects
       //json res format: [{"_id": bookid, "title": book_title, "commentcount": num_of_comments },...]
-    })
+    .get(bookController.getAllBooks)
+     //response will contain new book object including atleast _id and title
+    .post(bookController.addBook)
     
-    .post(function (req, res){
-      let title = req.body.title;
-      //response will contain new book object including atleast _id and title
-    })
-    
-    .delete(function(req, res){
       //if successful response will be 'complete delete successful'
-    });
+    .delete(bookController.deleteAllBooks);
 
 
 
   app.route('/api/books/:id')
-    .get(function (req, res){
-      let bookid = req.params.id;
       //json res format: {"_id": bookid, "title": book_title, "comments": [comment,comment,...]}
-    })
+    .get(bookController.getBookById)
     
-    .post(function(req, res){
-      let bookid = req.params.id;
-      let comment = req.body.comment;
       //json res format same as .get
-    })
+    .post(bookController.addCommentToBook)
     
-    .delete(function(req, res){
-      let bookid = req.params.id;
       //if successful response will be 'delete successful'
-    });
+    .delete(bookController.deleteBookById);
   
 };
